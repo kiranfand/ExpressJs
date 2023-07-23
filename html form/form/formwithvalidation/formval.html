@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Form with Border and JavaScript Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var country = document.getElementById('country').value;
+            var message = document.getElementById('message').value;
+
+            var errorMessages = [];
+
+            if (name.trim() === '') {
+                errorMessages.push('Please enter your name.');
+            }
+
+            if (email.trim() === '') {
+                errorMessages.push('Please enter your email.');
+            } else if (!isValidEmail(email)) {
+                errorMessages.push('Please enter a valid email address.');
+            }
+
+            if (password === '') {
+                errorMessages.push('Please enter a password.');
+            }
+
+            if (!gender) {
+                errorMessages.push('Please select your gender.');
+            }
+
+            if (country === '') {
+                errorMessages.push('Please select your country.');
+            }
+
+            if (message.trim() === '') {
+                errorMessages.push('Please enter your message.');
+            }
+
+            var errorMessageContainer = document.getElementById('error-messages');
+            errorMessageContainer.innerHTML = errorMessages.join('<br>');
+
+            return errorMessages.length === 0;
+        }
+
+        function isValidEmail(email) {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>HTML Form Example with Border and JavaScript Validation</h1>
+        <form action="/submit_form" method="post" onsubmit="return validateForm();">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+
+            <label>Gender:</label>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label>
+            <input type="radio" id="other" name="gender" value="other">
+            <label for="other">Other</label>
+
+            <label for="country">Country:</label>
+            <select id="country" name="country">
+                <option value="">Select a country</option>
+                <option value="us">United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="ca">Canada</option>
+            </select>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" cols="30"></textarea>
+
+            <div id="error-messages" class="error-message"></div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
